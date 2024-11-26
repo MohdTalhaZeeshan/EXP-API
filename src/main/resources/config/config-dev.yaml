@@ -1,0 +1,28 @@
+autoDiscovery:
+  id: ""  
+
+http:
+  host: "0.0.0.0"
+  port: "8083"
+  
+router:
+  definition: "hospital-management-eapi"
+  outbound: "outboundHeaders"
+  varname: "httpStatus"  
+
+  
+papiRequestor:
+  host: "0.0.0.0"
+  port: "8082"
+  bufferSize: "1024"
+  maxConnection: "-1"
+  idlTimeOut: "3000"
+  path:
+    patientPath: '/api/patient-info'
+    doctorPath: '/api/doctor-info'
+    appointmentPath: '/api/appointment-info'
+
+
+ 
+ 
+ 

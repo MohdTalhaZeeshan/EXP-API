@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <flow name="hospital-management-eapi-main">
+        <http:listener path="/api/*" config-ref="hospital-management-eapi-httpListenerConfig">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="hospital-management-eapi-config" />
+		<error-handler ref="common-global-error-handError_Handler" />
+    </flow>
+    <flow name="hospital-management-eapi-console">
+        <http:listener path="/console/*" config-ref="hospital-management-eapi-httpListenerConfig">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="hospital-management-eapi-config" />
+		<error-handler ref="common-global-error-handError_Handler" />
+    </flow>
+    <flow name="delete:\doctor-info:hospital-management-eapi-config">
+		<flow-ref doc:name="Flow reference to delete doctor details" doc:id="761a8c6b-4ba2-4ed2-9008-c0a3b58c0089" name="delete-doctor-details" />
+    </flow>
+    <flow name="delete:\patient-info:hospital-management-eapi-config">
+		<flow-ref doc:name="Flow reference to delete patient details" doc:id="53e92176-0d51-434e-bb02-16ec0a3e18ec" name="delet-patient-details" />
+    </flow>
+    <flow name="get:\doctor-info:hospital-management-eapi-config">
+		<flow-ref doc:name="Flow reference to fetch doctor details" doc:id="b2f9124f-1fed-4653-bba1-01c409c8d213" name="fetch-doctor-details" />
+    </flow>
+    <flow name="get:\patient-info:hospital-management-eapi-config">
+		<flow-ref doc:name="Flow referenceto fetch patient details" doc:id="a505a58c-bb3d-4c64-96fa-8b1ae2e76b02" name="fetch-patient-details" />
+    </flow>
+    <flow name="post:\appointment-info:application\json:hospital-management-eapi-config">
+		<flow-ref doc:name="Flow Reference" doc:id="6289efeb-0f60-4d95-adf8-03ddc0318560" name="imp-appointment-detailsSub_Flow"/>
+    </flow>
+    <flow name="post:\doctor-info:application\json:hospital-management-eapi-config">
+		<flow-ref doc:name="Flow reference to insert or update doctor details" doc:id="2fa3939b-1f59-47fa-8abf-0cb2d7cef42b" name="insert-or-update-doctor-details" />
+    </flow>
+    <flow name="post:\patient-info:application\json:hospital-management-eapi-config">
+		<flow-ref doc:name="Flow reference to insert to update patient details" doc:id="79db5d1a-f1fe-43ed-9c15-dbfbdad08357" name="insert-or-update-patient-details" />
+    </flow>
+</mule>

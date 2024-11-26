@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="impl-common-requestor-flow" doc:id="15819b23-99d7-40e0-89d4-b29e93250ce6" >
+		<logger level="INFO" doc:name="beforeRequest" doc:id="1ec1e5de-206d-434f-80d0-1ee35ab339f5" message="#[payload]"/>
+		<http:request method="#[vars.httpReq.method]" doc:name="Requestor connects to papi" doc:id="b6fce040-ad9b-4a25-8606-8f4caa8b326f" config-ref="HTTP_Request_configuration_Papi" path="#[vars.httpReq.path]" responseTimeout="600000" >
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Status" : vars.status,
+	"ID" : vars.id,
+	"SpecialistIN" : vars.SpecialistIN
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"" : "Value"
+}]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="afterRequest" doc:id="77427ad3-ae26-4d46-8620-813e184182ef" message="#[payload]"/>
+	</flow>
+</mule>

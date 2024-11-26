@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="fetch-doctor-details" doc:id="bfc85f8c-645e-4809-8f5c-1855d0399d0a" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="51f97d27-9bae-437b-ac2f-8c306c486bf7" message="fetch the data from Db" />
+		<ee:transform doc:name="initializing id, requestor,specialty variables" doc:id="49853c7a-948e-4e17-b7c8-e6e70c566eb6" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable resource="dwl/idVariable.dwl" variableName="Id" />
+				<ee:set-variable resource="dwl/doctor/etchHttpVariable.dwl" variableName="httpReq" />
+				<ee:set-variable resource="dwl/specialtyVariable.dwl" variableName="SpecialistIN" />
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Flow reference to papi requestor" doc:id="ee0f6b59-c418-4016-a8c8-694383c54f23" name="impl-common-requestor-flow" />
+		<ee:transform doc:name="Set Response" doc:id="ad4c5b9d-c61f-4813-93df-18f6998c636e" >
+			<ee:message >
+				<ee:set-payload resource="dwl/setResponsePayload.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Logger" doc:id="337f0afd-4931-4a7c-9c00-f1652effa27b" message="details fetched successfully" />
+	</sub-flow>
+	<sub-flow name="insert-or-update-doctor-details" doc:id="52834827-eb22-4048-9144-21d0281fb230" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="2a64616e-a9a2-4e87-8655-150e3fc207f0" message="insert or update data into DB" />
+		<ee:transform doc:name="initializing id, requestor variables" doc:id="07812af8-116b-46a9-be31-d9b51cc617d1" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable resource="dwl/idVariable.dwl" variableName="Id" />
+				<ee:set-variable resource="dwl/doctor/postHttpVariable.dwl" variableName="httpReq" />
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Flow reference to papi requestor" doc:id="cc2adc4c-3196-456c-bcbf-b31f5357dad0" name="impl-common-requestor-flow" />
+		<ee:transform doc:name="Set Response" doc:id="560bfced-3dfd-496c-99aa-e964bcae5fd8" >
+			<ee:message >
+				<ee:set-payload resource="dwl/setResponsePayload.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Logger" doc:id="ef3940ca-0b10-4a93-b1ff-65b3ee833557" message="insert or update doctor details into db" />
+	</sub-flow>
+	<sub-flow name="delete-doctor-details" doc:id="985fbc98-9732-4895-9cb6-37237c445af5" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="0ec0c90a-7749-4ccd-83c5-bbd14c31c41b" message="delete patient details" />
+		<ee:transform doc:name="initializing id, requestor variables" doc:id="b5d39bc5-87bd-427c-9687-d6e6c3736286" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable resource="dwl/idVariable.dwl" variableName="Id" />
+				<ee:set-variable resource="dwl/doctor/deleteHttpVariable.dwl" variableName="httpReq" />
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Flow reference to papi requestor" doc:id="985e7f9d-a4c8-41db-83b8-7f25900cadfa" name="impl-common-requestor-flow" />
+		<ee:transform doc:name="Set Response" doc:id="9c234170-51fb-490c-a474-400b309f88bf" >
+			<ee:message >
+				<ee:set-payload resource="dwl/setResponsePayload.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Logger" doc:id="0c079e0f-6902-4d77-aa6e-55e759200255" message="deleted patient  successfully" />
+	</sub-flow>
+</mule>

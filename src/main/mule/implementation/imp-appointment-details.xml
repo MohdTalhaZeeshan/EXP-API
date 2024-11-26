@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="imp-appointment-detailsSub_Flow" doc:id="8a224883-1db7-412f-8caf-4ecd95479f66" >
+		<logger level="INFO" doc:name="Start  Logger" doc:id="bda05012-ac6f-49ef-a1b0-2277443ab526" />
+		<ee:transform doc:name="initializing id, requestor,specialty variables" doc:id="1f12e58e-a077-4d75-b1d4-9cc9f5e1a8e0">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable resource="dwl/idVariable.dwl" variableName="Id" />
+				<ee:set-variable resource="dwl/specialtyVariable.dwl" variableName="specialty" />
+				<ee:set-variable resource="dwl/appointment/fetchHttpVariable.dwl" variableName="httpReq" />
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="2e70f010-70a8-4983-b045-2d3e54ed9fb6" name="impl-common-requestor-flow"/>
+		<ee:transform doc:name="Set Response" doc:id="2daf646f-0115-48f9-bb66-5da72f00a6d6" >
+			<ee:message >
+				<ee:set-payload resource="dwl/setResponsePayload.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Logger" doc:id="7c858019-dd3c-4267-bdf2-c27723c5fff4" message="details fetched successfully" />
+	</sub-flow>
+</mule>
